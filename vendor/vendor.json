@@ -1,0 +1,31 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "LH6l9tQnVH+754KGBaSqJiSrk0Q=",
+			"path": "github.com/bradfitz/slice",
+			"revision": "d9036e2120b5ddfa53f3ebccd618c4af275f47da",
+			"revisionTime": "2016-08-23T17:19:49Z"
+		},
+		{
+			"checksumSHA1": "QQe2WybsKsiDEsBzIElxUjQV3qg=",
+			"path": "github.com/gorilla/mux",
+			"revision": "757bef944d0f21880861c2dd9c871ca543023cba",
+			"revisionTime": "2016-09-20T23:08:13Z"
+		},
+		{
+			"checksumSHA1": "0eTa/dbxbZT7+T0QsrSHjVLzkKI=",
+			"path": "github.com/mcuadros/go-version",
+			"revision": "257f7b9a7d87427c8d7f89469a5958d57f8abd7c",
+			"revisionTime": "2016-11-05T18:36:18Z"
+		},
+		{
+			"checksumSHA1": "pV0OOQcUZxVX6iOlDQXMSGXDr/E=",
+			"path": "go4.org/reflectutil",
+			"revision": "09d86de304dc27e636298361bbfee4ac6ab04f21",
+			"revisionTime": "2016-11-18T21:00:15Z"
+		}
+	],
+	"rootPath": "github.com/afedchin/afedchin-repo"
+}
