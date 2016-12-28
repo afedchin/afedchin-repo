@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"sort"
 	"strings"
 	"time"
 
@@ -227,14 +228,20 @@ func generateRepo(repos []string, baseDir string) {
 
 func repoMuxer(repos []string) *mux.Router {
 	router := mux.NewRouter()
+
+	keys := []string{}
 	addons = reloadAddons(repos)
+	for key := range addons {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		files := make(map[string]string)
-		for _, addon := range addons {
-			for _, asset := range addon.Releases[0].Assets {
+		for _, addonID := range keys {
+			for _, asset := range addons[addonID].Releases[0].Assets {
 				if strings.HasSuffix(asset.Name, ".zip") {
-					files[addon.ID] = asset.Name
+					files[addonID] = asset.Name
 				}
 			}
 		}
@@ -243,8 +250,8 @@ func repoMuxer(repos []string) *mux.Router {
 
 	router.HandleFunc("/addons.xml", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<addons>")
-		for _, addon := range addons {
-			fmt.Fprintf(w, addon.XMLBody)
+		for _, addonID := range keys {
+			fmt.Fprintf(w, addons[addonID].XMLBody)
 		}
 		fmt.Fprintf(w, "</addons>")
 	})
@@ -252,8 +259,8 @@ func repoMuxer(repos []string) *mux.Router {
 	router.HandleFunc("/addons.xml.md5", func(w http.ResponseWriter, r *http.Request) {
 		h := md5.New()
 		fmt.Fprintf(h, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<addons>")
-		for _, addon := range addons {
-			fmt.Fprintf(h, addon.XMLBody)
+		for _, addonID := range keys {
+			fmt.Fprintf(h, addons[addonID].XMLBody)
 		}
 		fmt.Fprintf(h, "</addons>")
 		fmt.Fprintf(w, "%x", h.Sum(nil))
@@ -291,7 +298,12 @@ func repoMuxer(repos []string) *mux.Router {
 	})
 
 	router.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
+		keys = []string{}
 		addons = reloadAddons(repos)
+		for key := range addons {
+			keys = append(keys, key)
+		}
+		sort.Strings(keys)
 	})
 
 	return router
