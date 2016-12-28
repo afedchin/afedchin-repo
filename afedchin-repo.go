@@ -102,7 +102,7 @@ func reloadAddons(repos []string) map[string]XBMCAddon {
 		json.Unmarshal(body, &releases)
 
 		slice.Sort(releases[:], func(i, j int) bool {
-			return version.Compare(releases[i].Name, releases[j].Name, ">")
+			return version.Compare(releases[i].TagName, releases[j].TagName, ">")
 		})
 
 		var addonxml Content
